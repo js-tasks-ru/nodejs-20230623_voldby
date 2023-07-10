@@ -6,12 +6,12 @@ const LimitStream = require('./LimitSizeStream');
 
 const server = new http.Server();
 
-
 const fileSizeLimit = 1048576;
 
 server.on('request', (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const pathname = url.pathname.slice(1);
+  let connectionLost = false;
 
   function responseErr(res, statusCode, err_msg){
     res.statusCode = statusCode;
@@ -62,22 +62,22 @@ server.on('request', (req, res) => {
          });
 
         fileStream.on('finish', ()=> {
+          //console.log('finish');
           res.statusCode = 201;
           res.end(`File '${pathname}' uploaded`);
           releaseStreams(req, fileStream, limitStream);
         });
 
-        req.on('error', (err) => {
-          console.log(err);
-            if (err && err.code === 'ECONNRESET'){
-              releaseStreams(req, fileStream, limitStream);
-              fs.unlink(filepath, (err) => {
-                if (err)
-                  console.log('Error to delete file '+filepath);
-              });
-            }
+        //Connection lost or request fully finished:
+        req.on('close', () => {
+          if (req.destroyed /*finished*/ && !req.complete /*lost*/){
+            releaseStreams(req, fileStream, limitStream);
+            fs.unlink(filepath, (err) => {
+              if (err)
+                console.log('Error to delete file ' + filepath);
+            });
+          }
         });
-
       }
 
       break;
