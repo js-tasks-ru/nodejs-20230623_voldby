@@ -11,7 +11,6 @@ const fileSizeLimit = 1048576;
 server.on('request', (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const pathname = url.pathname.slice(1);
-  let connectionLost = false;
 
   function responseErr(res, statusCode, err_msg){
     res.statusCode = statusCode;
