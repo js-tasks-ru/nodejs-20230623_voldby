@@ -3,7 +3,7 @@ module.exports = function mapCategory(category) {
     id: category.id,
     title: category.title,
     subcategories: category.subcategories.map((subcategory) => ({
-      id: subcategory.id,
+      id: subcategory._id.toString(),
       title: subcategory.title,
     })),
   };

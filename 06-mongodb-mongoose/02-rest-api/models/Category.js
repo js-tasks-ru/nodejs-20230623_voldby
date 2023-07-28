@@ -8,6 +8,8 @@ const subCategorySchema = new mongoose.Schema({
   },
 });
 
+connection.model('SubCategory', subCategorySchema);
+
 const categorySchema = new mongoose.Schema({
   title: {
     type: String,
