@@ -4,7 +4,7 @@ import axios from "axios";
 export default class Login extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       email: '',
       password: '',
@@ -12,13 +12,13 @@ export default class Login extends Component {
       isLoading: false,
       error: null,
     };
-    
+
     this.getOAuthLink = this.getOAuthLink.bind(this);
   }
 
   render() {
     const { email, password, token, isLoading, error } = this.state;
-    
+
     if (token) {
       return (
         <div className="signin-container">
@@ -32,7 +32,7 @@ export default class Login extends Component {
         </div>
       );
     }
-    
+
     return (
       <React.Fragment>
         <form className="signin-container" onSubmit={this.onSubmit.bind(this)}>
@@ -60,7 +60,7 @@ export default class Login extends Component {
         </form>
         <div className="social-buttons text-center">
           <p>или используйте социальные сети:</p>
-          
+
           <button className="btn btn-link btn-lg text-info mx-2" onClick={this.getOAuthLink('facebook')}>
             <i className="fab fa-facebook-f"/>
           </button>
@@ -70,30 +70,33 @@ export default class Login extends Component {
           <button className="btn btn-link btn-lg text-info mx-2" onClick={this.getOAuthLink('github')}>
             <i className="fab fa-github"/>
           </button>
+          <button className="btn btn-link btn-lg text-info mx-2" onClick={this.getOAuthLink('google')}>
+            <i className="fab fa-google"/>
+          </button>
         </div>
       </React.Fragment>
     );
   }
-  
+
   onSubmit(event) {
     event.preventDefault();
-    
+
     const { email, password, isLoading } = this.state;
-    
+
     if (isLoading) return;
-    
+
     if (!email || !password) {
       this.setState({
         error: 'Поля email и пароль обязательные'
       });
       return;
     }
-    
+
     this.setState({
       error: null,
       isLoading: true,
     });
-    
+
     axios.post('/api/login', {
       email, password
     }).then(response => {
@@ -108,14 +111,14 @@ export default class Login extends Component {
       });
     })
   }
-  
+
   getOAuthLink(provider) {
     return () => {
       this.setState({
         error: null,
         isLoading: true,
       });
-      
+
       axios.get(`/api/oauth/${provider}`)
         .then(response => {
           window.location.href = response.data.location;
@@ -128,13 +131,13 @@ export default class Login extends Component {
         });
     };
   }
-  
+
   onEmailChanged(event) {
     this.setState({
       email: event.target.value,
     });
   }
-  
+
   onPasswordChanged(event) {
     this.setState({
       password: event.target.value,
