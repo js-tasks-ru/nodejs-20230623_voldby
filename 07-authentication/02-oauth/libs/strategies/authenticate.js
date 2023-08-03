@@ -3,11 +3,6 @@ const User = require('../../models/User');
 module.exports = function authenticate(strategy, email, displayName, done) {
   //console.log(strategy, email, displayName);
 
-  if (strategy === 'facebook') {
-    done(null, false, `функция аутентификации с помощью ${strategy} не настроена`);
-    return;
-  }
-
   if (!email) {
     done(null, false, 'Не указан email');
     return;
