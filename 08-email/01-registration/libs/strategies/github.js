@@ -1,4 +1,5 @@
-const GithubStrategy = require('passport-github2').Strategy;
+const GithubStrategy = require('passport-github').Strategy;
+//const GithubStrategy = require('passport-github2').Strategy;
 const config = require('../../config');
 const get = require('lodash/get');
 const authenticate = require('./authenticate');
@@ -11,5 +12,6 @@ module.exports = new GithubStrategy({
   session: false,
 }, function(accessToken, refreshToken, profile, done) {
   authenticate('github', get(profile, 'emails[0].value'), profile.username, done);
+  //authenticate('github', get(profile, 'emails[0].value'), profile.displayName, done); //For passport-github2
 },
 );
