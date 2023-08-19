@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export default class OAuth extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       token: null,
       error: null,
@@ -14,7 +14,7 @@ export default class OAuth extends Component {
 
   componentDidMount() {
     const params = new URLSearchParams(this.props.location.search);
-    
+
     axios.post(`/api/oauth_callback?code=${params.get('code')}`, {
       provider: this.props.match.params.provider,
     }).then(response => {
@@ -27,10 +27,10 @@ export default class OAuth extends Component {
       });
     });
   }
-  
+
   render() {
     const { token, error } = this.state;
-    
+
     if (token) {
       return (
         <div className="signin-container">
@@ -44,7 +44,7 @@ export default class OAuth extends Component {
         </div>
       );
     }
-    
+
     if (error) {
       return (
         <div className="signin-container">
@@ -61,7 +61,7 @@ export default class OAuth extends Component {
         </div>
       );
     }
-    
+
     return (
       <div className="signin-container">
         <img className="mb-4"

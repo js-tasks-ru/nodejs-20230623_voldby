@@ -34,14 +34,24 @@ describe('authentication/oauth', () => {
     it('функция authenticate должна создавать пользователя если его еще нет', (done) => {
       authenticate('vkontakte', 'newuser@mail.com', 'name', (err, user) => {
         if (err) return done(err);
-
         expect(user.email).to.equal('newuser@mail.com');
-        User.findOne({email: 'newuser@mail.com'}, (err, usr) => {
+
+        (async () => {
+          try {
+            let usr = await User.findOne({email: 'newuser@mail.com'});
+            expect(usr.email).to.equal('newuser@mail.com');
+            done();
+          } catch (e) {
+            return done(err);
+          }
+        })();
+
+        /*User.findOne({email: 'newuser@mail.com'}, (err, usr) => {
           if (err) return done(err);
 
           expect(usr.email).to.equal('newuser@mail.com');
           done();
-        });
+        });*/
       });
     });
 

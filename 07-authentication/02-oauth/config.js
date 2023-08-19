@@ -2,7 +2,7 @@ module.exports = {
   mongodb: {
     uri: (process.env.NODE_ENV === 'test') ?
       'mongodb://127.0.0.1:27017/7-module-2-task' :
-      'mongodb://127.0.0.1:27017/any-shop',
+      'mongodb://192.168.1.78/7-module-2-task',
   },
   crypto: {
     iterations: (process.env.NODE_ENV === 'test' ? 1 : 12000),
@@ -34,5 +34,13 @@ module.exports = {
         scope: ['email'],
       },
     },
+    google: {
+      app_id: process.env.GOOGLE_APP_ID || 'google_app_id',
+      app_secret: process.env.GOOGLE_APP_SECRET || 'google_app_secret',
+      callback_uri: 'http://localhost:3000/oauth/google',
+      options: {
+        scope: ['email'],
+      },
+    }
   },
 };

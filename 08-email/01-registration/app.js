@@ -2,6 +2,7 @@ const path = require('path');
 const Koa = require('koa');
 const {v4: uuid} = require('uuid');
 const Router = require('koa-router');
+const User = require('./models/User');
 const handleMongooseValidationError = require('./libs/validationErrors');
 const mustBeAuthenticated = require('./libs/mustBeAuthenticated');
 const {productsBySubcategory, productList, productById} = require('./controllers/products');
